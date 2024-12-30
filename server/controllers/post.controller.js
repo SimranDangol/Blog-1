@@ -30,23 +30,66 @@ export const generateBlogContent = async (title, category) => {
   }
 };
 
+// export const createBlog = asyncHandler(async (req, res) => {
+//   // Checking if an image was uploaded
+//   if (!req.file) {
+//     throw new ApiError(400, "No file uploaded");
+//   }
+
+//   // Path to the uploaded file
+//   const localFilePath = req.file.path;
+
+//   // Upload to Cloudinary
+//   const cloudinaryResponse = await uploadOnCloudinary(localFilePath);
+
+//   const { userId, title, category, author, content, useAI } = req.body; // Added 'useAI' here
+
+//   let generatedContent = content; // Default content is from the request
+
+//   // Generate content using AI if requested
+//   if (useAI === "true") {
+//     try {
+//       generatedContent = await generateBlogContent(title, category);
+//     } catch (error) {
+//       throw new ApiError(500, "Failed to generate AI content");
+//     }
+//   }
+
+//   // Generate a slug from the title
+//   const slug = title.toLowerCase().replace(/\s+/g, "-").split(" ").join("-");
+
+//   // Create new post
+//   const newPost = await Post.create({
+//     userId: req.user._id,
+//     content: generatedContent,
+//     title,
+//     slug,
+//     category,
+//     image: cloudinaryResponse.secure_url,
+//     author,
+//     isAIGenerated: useAI === "true", // Flag for AI-generated content
+//   });
+
+//   res.status(201).json(
+//     new ApiResponse(201, "Post created successfully", {
+//       post: newPost,
+//       slug: newPost.slug,
+//     })
+//   );
+// });
+
 export const createBlog = asyncHandler(async (req, res) => {
-  // Checking if an image was uploaded
   if (!req.file) {
     throw new ApiError(400, "No file uploaded");
   }
 
-  // Path to the uploaded file
-  const localFilePath = req.file.path;
+  // Upload buffer directly to Cloudinary
+  const cloudinaryResponse = await uploadOnCloudinary(req.file.buffer);
 
-  // Upload to Cloudinary
-  const cloudinaryResponse = await uploadOnCloudinary(localFilePath);
+  const { title, category, useAI } = req.body;
 
-  const { userId, title, category, author, content, useAI } = req.body; // Added 'useAI' here
+  let generatedContent = req.body.content;
 
-  let generatedContent = content; // Default content is from the request
-
-  // Generate content using AI if requested
   if (useAI === "true") {
     try {
       generatedContent = await generateBlogContent(title, category);
@@ -55,10 +98,8 @@ export const createBlog = asyncHandler(async (req, res) => {
     }
   }
 
-  // Generate a slug from the title
   const slug = title.toLowerCase().replace(/\s+/g, "-").split(" ").join("-");
 
-  // Create new post
   const newPost = await Post.create({
     userId: req.user._id,
     content: generatedContent,
@@ -66,8 +107,7 @@ export const createBlog = asyncHandler(async (req, res) => {
     slug,
     category,
     image: cloudinaryResponse.secure_url,
-    author,
-    isAIGenerated: useAI === "true", // Flag for AI-generated content
+    isAIGenerated: useAI === "true",
   });
 
   res.status(201).json(
@@ -88,7 +128,6 @@ export const previewBlogContent = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Failed to generate preview content");
   }
 });
-
 
 export const getblogs = asyncHandler(async (req, res) => {
   const startIndex = parseInt(req.query.startIndex) || 0;
@@ -159,8 +198,6 @@ export const getblogs = asyncHandler(async (req, res) => {
     })
   );
 });
-
-
 
 export const getUserBlogs = asyncHandler(async (req, res) => {
   try {
@@ -272,5 +309,3 @@ export const updateBlog = asyncHandler(async (req, res) => {
 
   res.status(200).json(new ApiResponse(200, "Blog updated successfully", post));
 });
-
-

@@ -14,11 +14,27 @@ const __dirname = path.resolve();
 const app = express();
 
 // Middlewares
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }));
 
-const corsOptions = { origin: process.env.URL, credentials: true };
+// const corsOptions = { origin: process.env.URL, credentials: true };
+// app.use(cors(corsOptions));
+
+const corsOptions = {
+  origin:
+    process.env.NODE_ENV === "production"
+      ? "https://your-deployed-frontend-url.com"
+      : "http://localhost:5173",
+  credentials: true,
+};
+const corsOptions = {
+  origin:
+    process.env.NODE_ENV === "production"
+      ? "https://blog-1-z76d.onrender.com"
+      : process.env.URL,
+  credentials: true,
+};
 app.use(cors(corsOptions));
 
 // Initialize Firebase Admin
@@ -36,8 +52,8 @@ app.use("/api/v1/comment", commentRouter);
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
 // Catch-all route to serve the frontend index.html for SPA routing
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
 
 export default app;
