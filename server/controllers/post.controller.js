@@ -118,6 +118,7 @@ export const createBlog = asyncHandler(async (req, res) => {
   );
 });
 
+
 export const previewBlogContent = asyncHandler(async (req, res) => {
   const { title, category } = req.query;
 
@@ -286,6 +287,31 @@ export const deleteBlog = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, "Post deleted successfully"));
 });
 
+// export const updateBlog = asyncHandler(async (req, res) => {
+//   const { postId, userId } = req.params;
+//   const { title, category, content } = req.body;
+//   let { image } = req.body;
+
+//   // Handle image update
+//   if (req.file) {
+//     const uploadedImage = await uploadOnCloudinary(req.file.path);
+//     image = uploadedImage.secure_url;
+//   }
+
+//   const post = await Post.findOneAndUpdate(
+//     { _id: postId, userId },
+//     { title, category, content, image },
+//     { new: true }
+//   );
+
+//   if (!post) {
+//     return res.status(404).json({ message: "Post not found" });
+//   }
+
+//   res.status(200).json(new ApiResponse(200, "Blog updated successfully", post));
+// });
+
+
 export const updateBlog = asyncHandler(async (req, res) => {
   const { postId, userId } = req.params;
   const { title, category, content } = req.body;
@@ -293,8 +319,8 @@ export const updateBlog = asyncHandler(async (req, res) => {
 
   // Handle image update
   if (req.file) {
-    const uploadedImage = await uploadOnCloudinary(req.file.path);
-    image = uploadedImage.secure_url;
+    const cloudinaryResponse = await uploadOnCloudinary(req.file.buffer);
+    image = cloudinaryResponse.secure_url;
   }
 
   const post = await Post.findOneAndUpdate(
@@ -304,7 +330,7 @@ export const updateBlog = asyncHandler(async (req, res) => {
   );
 
   if (!post) {
-    return res.status(404).json({ message: "Post not found" });
+    throw new ApiError(404, "Post not found");
   }
 
   res.status(200).json(new ApiResponse(200, "Blog updated successfully", post));
