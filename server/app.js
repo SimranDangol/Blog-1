@@ -21,7 +21,6 @@ app.use(cookieParser());
 // const corsOptions = { origin: process.env.URL, credentials: true };
 // app.use(cors(corsOptions));
 
-;
 const corsOptions = {
   origin:
     process.env.NODE_ENV === "production"
