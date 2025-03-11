@@ -4,6 +4,8 @@ import {
   Route,
   createRoutesFromElements,
 } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { ImSpinner3 } from "react-icons/im"; // Importing ImSpinner3
 import Layout from "@/Layout";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
@@ -38,10 +40,30 @@ const router = createBrowserRouter(
 );
 
 const App = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate some initial loading (e.g., router initialization, fetching)
+    setTimeout(() => {
+      setLoading(false);
+    }, 4000); // Simulated loading time (adjust as necessary)
+  }, []);
+
   return (
     <>
-      <RouterProvider router={router} />
-      <Toaster />
+      {loading ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white">
+          <div className="flex flex-col items-center">
+            <ImSpinner3 className="w-16 h-16 text-black animate-spin" />
+            <p className="mt-4 text-lg text-black">Loading...</p>
+          </div>
+        </div>
+      ) : (
+        <>
+          <RouterProvider router={router} />
+          <Toaster />
+        </>
+      )}
     </>
   );
 };
