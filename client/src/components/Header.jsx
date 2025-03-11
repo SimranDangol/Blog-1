@@ -172,7 +172,7 @@ const Header = () => {
           </NavLink>
         </div>
 
-        {/* Dark Mode Toggle and Login Button for All Devices */}
+        {/* Dark Mode Toggle and Login Button */}
         <div className="flex items-center space-x-2">
           <button
             className="p-2"

@@ -56,7 +56,7 @@ const SignUp = () => {
       console.log(error);
       toast.error(error.response?.data?.message || "Failed to create account");
     } finally {
-      setLoading(false); // Ensure loading is reset after the API call
+      setLoading(false); // Ensuring loading is reset after the API call
     }
   };
 

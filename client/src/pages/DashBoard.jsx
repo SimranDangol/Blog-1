@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/table";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import { motion } from "framer-motion"; // Import framer-motion
+import { motion } from "framer-motion"; 
 
 const Dashboard = () => {
   const { currentUser } = useSelector((state) => state.user);

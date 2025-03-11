@@ -18,7 +18,7 @@
 
 import multer from "multer";
 
-// Change to memory storage instead of disk storage
+
 const storage = multer.memoryStorage();
 
 export const upload = multer({

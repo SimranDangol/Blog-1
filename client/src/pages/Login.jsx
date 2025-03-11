@@ -53,11 +53,11 @@ const Login = () => {
       });
 
       if (response.data.success) {
-        // Restructure the user data to match the expected format
+      
         const userData = {
           data: {
             ...response.data.message.user,
-            id: response.data.message.user._id, // Add id field if needed
+            id: response.data.message.user._id, 
           },
           accessToken: response.data.message.accessToken,
           refreshToken: response.data.message.refreshToken,

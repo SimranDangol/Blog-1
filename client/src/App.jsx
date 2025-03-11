@@ -5,7 +5,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { ImSpinner3 } from "react-icons/im"; // Importing ImSpinner3
+import { ImSpinner3 } from "react-icons/im"; 
 import Layout from "@/Layout";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
@@ -22,7 +22,7 @@ import Search from "./pages/Search";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
+    <Route path="/" element={<Layout />} >
       <Route path="" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
@@ -30,7 +30,7 @@ const router = createBrowserRouter(
       <Route path="post/:postSlug" element={<DashBlog />} />
       <Route path="blogs" element={<Blogs />} />
       <Route path="create-blog" element={<CreateBlog />} />
-      <Route element={<PrivateRoute />}>
+      <Route element={<PrivateRoute />} >
         <Route path="profile" element={<Profile />} />
         <Route path="dashboard" element={<DashBoard />} />
         <Route path="update-blog/:postId" element={<UpdateBlog />} />
@@ -43,19 +43,19 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate some initial loading (e.g., router initialization, fetching)
+    // Simulating some initial loading (e.g., router initialization, fetching)
     setTimeout(() => {
       setLoading(false);
-    }, 4000); // Simulated loading time (adjust as necessary)
+    }, 4000); // Simulated loading time
   }, []);
 
   return (
     <>
       {loading ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800">
           <div className="flex flex-col items-center">
-            <ImSpinner3 className="w-16 h-16 text-black animate-spin" />
-            <p className="mt-4 text-lg text-black">Loading...</p>
+            <ImSpinner3 className="w-16 h-16 text-white animate-spin" />
+            <p className="mt-4 text-lg text-white">Loading...</p>
           </div>
         </div>
       ) : (

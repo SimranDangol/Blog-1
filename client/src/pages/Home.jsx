@@ -93,7 +93,7 @@ export default function Home() {
           ideas waiting to be explored. Dive into the world of writing today!
         </p>
         
-        {/* Added horizontal line */}
+      
         <div className="w-24 h-1 mx-auto my-6 bg-gradient-to-r from-teal-600 to-blue-600 dark:from-teal-400 dark:to-blue-400" />
 
         <Link to="/create-blog">

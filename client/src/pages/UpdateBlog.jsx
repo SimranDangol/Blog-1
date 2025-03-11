@@ -158,7 +158,7 @@ const UpdateBlog = () => {
             />
           </div>
 
-          {/* Update Button with Loading Spinner */}
+          {/* Update Button  */}
           <Button
             onClick={handleUpdate}
             className="w-full mt-16 sm:my-10 bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 focus:outline-none"

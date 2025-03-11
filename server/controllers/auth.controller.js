@@ -156,7 +156,7 @@ export const google = asyncHandler(async (req, res) => {
 export const logout = asyncHandler(async (req, res) => {
   const { _id } = req.user;
 
-  // Remove the refresh token from the user's document in the database
+  // Removing the refresh token from the user's document in the database
   await User.findByIdAndUpdate(_id, {
     $unset: { refreshToken: 1 },
   });

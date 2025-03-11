@@ -30,54 +30,6 @@ export const generateBlogContent = async (title, category) => {
   }
 };
 
-// export const createBlog = asyncHandler(async (req, res) => {
-//   // Checking if an image was uploaded
-//   if (!req.file) {
-//     throw new ApiError(400, "No file uploaded");
-//   }
-
-//   // Path to the uploaded file
-//   const localFilePath = req.file.path;
-
-//   // Upload to Cloudinary
-//   const cloudinaryResponse = await uploadOnCloudinary(localFilePath);
-
-//   const { userId, title, category, author, content, useAI } = req.body; // Added 'useAI' here
-
-//   let generatedContent = content; // Default content is from the request
-
-//   // Generate content using AI if requested
-//   if (useAI === "true") {
-//     try {
-//       generatedContent = await generateBlogContent(title, category);
-//     } catch (error) {
-//       throw new ApiError(500, "Failed to generate AI content");
-//     }
-//   }
-
-//   // Generate a slug from the title
-//   const slug = title.toLowerCase().replace(/\s+/g, "-").split(" ").join("-");
-
-//   // Create new post
-//   const newPost = await Post.create({
-//     userId: req.user._id,
-//     content: generatedContent,
-//     title,
-//     slug,
-//     category,
-//     image: cloudinaryResponse.secure_url,
-//     author,
-//     isAIGenerated: useAI === "true", // Flag for AI-generated content
-//   });
-
-//   res.status(201).json(
-//     new ApiResponse(201, "Post created successfully", {
-//       post: newPost,
-//       slug: newPost.slug,
-//     })
-//   );
-// });
-
 export const createBlog = asyncHandler(async (req, res) => {
   if (!req.file) {
     throw new ApiError(400, "No file uploaded");
@@ -117,7 +69,6 @@ export const createBlog = asyncHandler(async (req, res) => {
     })
   );
 });
-
 
 export const previewBlogContent = asyncHandler(async (req, res) => {
   const { title, category } = req.query;
@@ -286,31 +237,6 @@ export const deleteBlog = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, "Post deleted successfully"));
 });
-
-// export const updateBlog = asyncHandler(async (req, res) => {
-//   const { postId, userId } = req.params;
-//   const { title, category, content } = req.body;
-//   let { image } = req.body;
-
-//   // Handle image update
-//   if (req.file) {
-//     const uploadedImage = await uploadOnCloudinary(req.file.path);
-//     image = uploadedImage.secure_url;
-//   }
-
-//   const post = await Post.findOneAndUpdate(
-//     { _id: postId, userId },
-//     { title, category, content, image },
-//     { new: true }
-//   );
-
-//   if (!post) {
-//     return res.status(404).json({ message: "Post not found" });
-//   }
-
-//   res.status(200).json(new ApiResponse(200, "Blog updated successfully", post));
-// });
-
 
 export const updateBlog = asyncHandler(async (req, res) => {
   const { postId, userId } = req.params;
