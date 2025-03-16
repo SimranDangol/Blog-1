@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js";
@@ -7,10 +9,13 @@ import Post from "../models/post.model.js";
 import Comment from "../models/comment.model.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const apiKey = process.env.GEMINI_API_KEY;
+console.log("Using API key:", apiKey); 
+const genAI = new GoogleGenerativeAI(apiKey);
+console.log("Using API key:", );
 export const generateBlogContent = async (title, category) => {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `Write an engaging and informative blog post about "${title}" for the category "${category}" without including any introductory title or headline. 
                      Requirements:
